@@ -1,0 +1,25 @@
+PATH
+  remote: .
+  specs:
+    git-quick (0.1.0)
+      colorize (= 0.8.1)
+      commander (= 4.5.2)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colorize (0.8.1)
+    commander (4.5.2)
+      highline (~> 2.0.0)
+    highline (2.0.3)
+    rake (12.3.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  git-quick!
+  rake (~> 12.0)
+
+BUNDLED WITH
+   2.1.4

@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+#coding=utf-8
+
+require 'optparse'
+require 'colorize'
+require 'commander/import'
+
+require 'git/quick/version'
+require 'git/quick'
+
+def getType (type)
+
+  case type
+  when '1'
+    "feat"
+  when '2'
+    "fix"
+  when '3'
+    "docs"
+  when '4'
+    "style"
+  when '5'
+    "refactor" 
+  when '6'
+    "test"
+  when '7'
+    "chore"
+  when '8'
+    "debug"
+  else
+    type            
+  end
+
+end
+
+never_trace!
+default_command :commit
+
+program :name, 'git-quick'
+program :version, Git::Quick::VERSION
+program :description, 'A plugin of Git for creating a Angular style commit message.'
+
+command :commit do |c|
+
+  c.description = "Commit with Angular style commit message"
+
+  c.example "git quick --type 1 --scope hello.rb --message world", ""
+
+  c.option '-t', '--type STRING', String, 'Type of commit message'
+  c.option '-s', '--scope STRING', String, 'Scope of commit message'
+  c.option '-m', '--message STRING', String, 'Subject of commit message'
+
+  c.action do |args, options|
+
+    tempType    = getType options.type
+    tempScope   = options.scope
+    tempSubject = options.message
+
+    if !tempType
+
+      tempType = choose("Type of your commit?", :feat, :fix, :docs, :style, :refactor, :test, :chore, :debug)
+
+    end
+
+    if !tempScope
+
+      tempScope = ask("Scope of your commit: ")
+
+    end
+
+    if !tempSubject
+
+      tempSubject = ask("Subject of your commit: ")
+
+    end
+
+    commitMessage = "#{tempType}[#{tempScope}]:#{tempSubject}".strip
+
+    puts ""
+    puts "Commiting with message:#{commitMessage}".green
+    puts ""
+
+    command = 'git commit -m ' + commitMessage
+
+    system command
+
+  end
+
+end
